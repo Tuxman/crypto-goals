@@ -1,7 +1,14 @@
-import { createApp } from 'vue'
+import Vue from 'vue'
 import App from './App.vue'
-import store from './store'
-import router from './router'
-import vSelect from 'vue-select'
+import router from './router/index'
+import store from './store/index'
+import axios from 'axios'
 
-createApp(App).use(router).use(store).use(vSelect).mount('#app')
+Vue.config.productionTip = false
+
+new Vue({
+  router,
+  store,
+  axios,
+  render: h => h(App),
+}).$mount('#app')

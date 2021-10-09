@@ -1,13 +1,14 @@
 <template>
-  <div>
-      <h1>Hello!</h1>
-  </div>
+    <div>
+        <search-display />
+    </div>
 </template>
 
 <script>
+import SearchDisplay from '../components/SearchDisplay.vue'
 export default {
-    name: 'Home'
-
+    components: { SearchDisplay },
+    name: 'Home',
 }
 </script>
 
