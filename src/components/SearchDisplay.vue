@@ -6,7 +6,7 @@
       :options="coinsList"
       :multiple="true"
       ></multiselect>
-      <button v-on:click="clearCoins, getCoinByID(coinID)">Click</button>
+      <button v-on:click="clearCoins(), getCoinByID(coinID)">Click</button>
       <ul id="coin-prices">
           <li v-for="coin in coinPricesToDisplay" :key="coin.name"> {{ coin.name }} ${{ coin.market_data.current_price.usd }} </li>
       </ul>
@@ -45,7 +45,6 @@ export default {
             // console.log(coinIDWanted[0].id)
         },
         clearCoins() {
-            this.coinID = [];
             this.coinPricesToDisplay = [];
         },
         log(id) {
