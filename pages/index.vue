@@ -2,7 +2,8 @@
   <v-row justify="center" align="center">
     <v-col>
       <v-container>
-        <ChartCard />
+        <!-- <ChartCard /> -->
+        <ExampleCard />
       </v-container>
     </v-col>
   </v-row>

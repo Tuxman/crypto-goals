@@ -47,6 +47,11 @@ export default {
     }
   },
   methods: {
+
+    onChartReady(chart, google) {
+
+    },
+
     async btnChartSelectedDateBtc() {
       this.btc = new Map()
       this.chartData = [['Date', 'Bitcoin']]
@@ -67,7 +72,7 @@ export default {
         // eslint-disable-next-line no-unused-vars
         const resEth = responses[1].data.prices
 
-        this.chartData = resBtc
+        this.chartData.push(...resBtc)
         // eslint-disable-next-line no-console
         console.log(this.chartData)
 
