@@ -14,123 +14,84 @@
         </v-btn-toggle>
       </v-card-actions>
       <v-card-actions class="justify-center mt-4">
-        <GChart
-        type="LineChart"
-        :data="chartData"
-        :options="chartOptions"
-        />
+        <div>
+          <LineChart :data="lineChartData" :options="lineChartOptions" :height="400"/>
+        </div>
       </v-card-actions>
     </v-col>
   </v-card>
 </template>
 
 <script>
-import axios from 'axios'
+import LineChart from '@/components/LineChart.vue'
 
 export default {
+  components: {
+    LineChart
+  },
   data () {
     return {
-      btcRaw: new Map(),
-      ethRaw: new Map(),
-      btc: new Map(),
-      eth: new Map(),
-      chartData: [
-        ['Date', 'Bitcoin']
-      ],
-      chartOptions: {
-        title: 'Coins',
-        width: 800,
-        legend: { position: 'bottom' }
+      lineChartData: {
+        labels: [
+          "2019-06",
+          "2019-07",
+          "2019-08",
+          "2019-09",
+          "2019-10",
+          "2019-11",
+          "2019-12",
+          "2020-01",
+          "2020-02",
+          "2020-03",
+        ],
+        datasets: [
+          {
+            label: "Visualizaciones",
+            data: [2, 1, 16, 3, 4, 5, 0, 0, 4, 12, 2],
+            backgroundColor: "rgba(20, 255, 0, 0.3)",
+            borderColor: "rgba(100, 255, 0, 1)",
+            borderWidth: 2,
+          },
+        ],
       },
-      chartSelectedDate: 1,
-      chartInterval: '',
-    }
-  },
-  methods: {
-    async btnChartSelectedDateBtc() {
-      this.btc = new Map()
-      this.chartData = [['Date', 'Bitcoin']]
-
-      if(this.chartSelectedDate === '1') {
-        this.chartInterval = 'minutely'
-      } else if (this.chartSelectedDate === '7') {
-        this.chartInterval = 'hourly'
-      } else if (this.chartSelectedDate === '30'|| this.chartSelectedDate === '365') {
-        this.chartInterval = 'daily'
-      } 
-
-      const reqBtc = await axios.get(`https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=${this.chartSelectedDate}&interval=${this.chartInterval}`)
-      const reqEth = await axios.get(`https://api.coingecko.com/api/v3/coins/ethereum/market_chart?vs_currency=usd&days=${this.chartSelectedDate}&interval=${this.chartInterval}`)
-
-      axios.all([reqBtc, reqEth]).then(axios.spread((...responses) => {
-        const resBtc = responses[0].data.prices
-        // eslint-disable-next-line no-unused-vars
-        const resEth = responses[1].data.prices
-
-        this.chartData = resBtc
-        // eslint-disable-next-line no-console
-        console.log(this.chartData)
-
-        // if(resBtc.status === 200) {
-        //   this.btcRaw.set('Bitcoin', resBtc.data.prices)
-        //   const tempDateBtc = resBtc.data.prices.map((el) => {
-        //     el[0] = new Date(el[0]).toISOString()
-        //     return el
-        //     })
-        //     this.chartData[0].push('Bitcoin $')
-        //     this.chartData.push(...tempDateBtc)
-        // }
-        // if(resEth.status === 200) {
-        //   this.ethRaw.set('Ethereum', resEth.data.prices)
-        //   const tempDateEth = resEth.data.prices.map((el) => {
-        //     el[0] = new Date(el[0]).toISOString()
-        //     return el
-        //     })
-        //     this.chartData[0].push('Ethereum $')
-        //     tempDateEth.array.forEach(element => {
-        //       let matchingDate = -1 
-        //       for (let index = 0; index < this.chartData.length; index++) {
-        //         const el = this.chartData[index];
-        //         if(element[0] === el[0]) {
-        //           matchingDate = index
-        //         }
-        //       }
-        //       if(matchingDate !== -1) {
-        //         this.chartData[matchingDate].push(element[1])
-        //       } else {
-        //         this.chartData.push(element)
-        //       }
-        //     });
-        // }
-      })).catch(errors => {
-        // eslint-disable-next-line no-console
-        console.log(errors)
-      })
-
-      // const res = await axios.get(`https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=${this.chartSelectedDate}&interval=${this.chartInterval}`)
-      // if(res.status === 200) {
-      //   this.coins.set('bitcoin', res.data.prices)
-      //   const tempDate = res.data.prices.map((el) => {
-      //     el[0] = new Date(el[0]).toISOString()
-      //     return el
-      //   })
-      //   this.chartData.push( ...tempDate)
-      // }
-    },
-    // async btnChartSelectedDateEth() {
-    //   this.coins = new Map()
-    //   this.chartData = [['Date', 'Bitcoin $']]
-
-    //   const res = await axios.get(`https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=${this.chartSelectedDate}&interval=${this.chartInterval}`)
-    //   if(res.status === 200) {
-    //     this.coins.set('bitcoin', res.data.prices)
-    //     const tempDate = res.data.prices.map((el) => {
-    //       el[0] = new Date(el[0]).toISOString()
-    //       return el
-    //     })
-    //     this.chartData.push( ...tempDate)
-    //   }
-    // }
+      lineChartOptions: {
+        responsive: true,
+        legend: {
+          display: true,
+        },
+        title: {
+          display: true,
+          text: "Google analytics data",
+          fontSize: 24,
+          fontColor: "#6b7280",
+        },
+        tooltips: {
+          backgroundColor: "#17BF62",
+        },
+        scales: {
+          xAxes: [
+            {
+              gridLines: {
+                display: true,
+              },
+            },
+          ],
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: true,
+                max: 7,
+                min: 0,
+                stepSize: 1,
+              },
+              gridLines: {
+                display: true,
+              },
+            },
+          ],
+        },
+      },
+    };
   }
 }
 </script>
