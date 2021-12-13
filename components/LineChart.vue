@@ -5,81 +5,94 @@ import axios from 'axios';
 
 export default {
   extends: Line,
-  props: ['data', 'options'],
-  data () {
-  return {
-    coinList: [],
-    coins: ['bitcoin', ],
-    lineChartData: {
-      labels: [],
-      datasets: [
-        {
-          label: "Cryptocurrency",
-          data: [],
-          backgroundColor: "rgba(20, 255, 0, 0.3)",
-          borderColor: "rgba(100, 255, 0, 1)",
-          borderWidth: 2,
-        },
-      ],
+  props: {
+    selectedDate: {
+      type: String,
+      required: true,
     },
-    lineChartOptions: {
-      responsive: true,
-      legend: {
-        display: true,
-      },
-      title: {
-        display: true,
-        text: "Google analytics data",
-        fontSize: 24,
-        fontColor: "#6b7280",
-      },
-      tooltips: {
-        backgroundColor: "#17BF62",
-      },
-      scales: {
-        xAxes: [
-          {
-            gridLines: {
-              display: true,
-            },
-          },
-        ],
-        yAxes: [
-          {
-            ticks: {
-              beginAtZero: true,
-              max: 20,
-              min: 0,
-              stepSize: 1,
-            },
-            gridLines: {
-              display: true,
-            },
-          },
-        ],
-      },
-    },
+    coinName: {
+      type: String,
+      required: true,
     }
   },
-    async created() {
-    const res = await axios.get('https://api.coingecko.com/api/v3/coins/list')
-    if(res.status === 200) {
-      res.data.forEach(element => {
-        this.coinList.push(element)
-      })
+  data () {
+    return {
+      chartInterval: 'daily',
+      data: {
+        labels: [],
+        datasets: [
+          {
+            label: this.coinName,
+            data: [],
+            backgroundColor: "rgba(20, 255, 0, 0.3)",
+            borderColor: "rgba(100, 255, 0, 1)",
+            borderWidth: 2,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        legend: {
+          display: true,
+        },
+        title: {
+          display: true,
+          text: "Cryptocurrency Data",
+          fontSize: 24,
+          fontColor: "#6b7280",
+        },
+        tooltips: {
+          backgroundColor: "#17BF62",
+        },
+        scales: {
+          xAxes: [
+            {
+              gridLines: {
+                display: true,
+              },
+            },
+          ],
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: true,
+              },
+              gridLines: {
+                display: true,
+              },
+            },
+          ],
+        },
+      },
     }
   },
   mounted() {
     this.renderChart(this.data, this.options)
   },
-  methods: {
-    async coinQueries(coins) {
-      const queries = coins.map(coin => axios.get(`https://api.coingecko.com/api/v3/coins/${coin}/market_chart?vs_currency=usd&days=${this.chartSelectedDate}&interval=${this.chartInterval}`))
-      await axios.all(queries).then(axios.spread((...responses) => {
-        const prices = responses.map(res =>  res.data.prices)
-        this.coinMatrix = prices.map((p, i) => ['Date', coins[i]].concat(p))
-      }))
+  created() {
+    if(this.selectedDate === "1") {
+      this.chartInterval = 'minutely'
+    } else if(this.selectedDate === "7") {
+      this.chartInterval = 'hourly'
+    } else {
+      this.chartInterval = 'daily'
+    }
+
+      const query = axios.get(`https://api.coingecko.com/api/v3/coins/${this.coinName}/market_chart?vs_currency=usd&days=${this.selectedDate}&interval=${this.chartInterval}`)
+      query.then((res) => {
+        const prices = res.data.prices;
+        prices.forEach(el => {
+          this.data.labels.push(this.convertTimestamp(el[0]));
+          this.data.datasets[0].data.push(el[1]);
+        });
+      })
+      // eslint-disable-next-line no-console
+      console.log(this.data.labels, this.data.datasets[0].data)
+    },
+    methods: {
+      convertTimestamp(ts) {
+        return new Date(ts).toISOString()
+      }
     }
   }
-}
 </script>
