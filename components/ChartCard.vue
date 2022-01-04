@@ -1,6 +1,6 @@
 <template>
   <v-card min-height="900px" min-width="700px" class="mx-auto">
-    <v-card-title class="justify-center">Coins {{ coins }}</v-card-title>
+    <v-card-title class="justify-center">Coins</v-card-title>
     <v-col>
       <v-card-actions class="justify-center mt-4">
         <v-autocomplete 
@@ -18,7 +18,7 @@
       </v-card-actions>
       <v-card-actions class="justify-center mt-4">
         <v-btn-toggle
-        v-model="selectedDate"
+        v-model="selectedDateToggle"
         mandatory
         >
           <v-btn value="1">1d</v-btn>
@@ -29,7 +29,7 @@
       </v-card-actions>
       <v-card-actions class="justify-center mt-4">
         <div>
-          <LineChart v-for="coin in coins" :key="coin.id" :coin-name="coin" :selected-date="selectedDate" :height="500" :width="800"/>
+          <LineChart v-for="coin in coins" :key="coin.id" :coin-name="coin" :selected-date="selectedDateToggle" :height="500" :width="800"/>
         </div>
       </v-card-actions>
     </v-col>
@@ -48,7 +48,7 @@ export default {
     return {
       coinList: [],
       coins: ['bitcoin'],
-      selectedDate: "7",
+      selectedDateToggle: '7',
     }
   },
   async created() {
