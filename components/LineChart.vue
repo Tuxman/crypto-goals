@@ -103,9 +103,9 @@ export default {
             this.data.labels.push(this.convertTimestamp(el[0]));
             this.data.datasets[0].data.push(el[1]);
           });
-          this.$data._chart.update()
+          this.renderChart(this.data, this.options)
         });
       }
     }
   }
-</script>
+  </script>
