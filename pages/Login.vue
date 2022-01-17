@@ -8,7 +8,7 @@
 import LoginCard from '@/components/LoginCard.vue'
 
 export default {
-  name: 'Login',
+  name: 'LoginPage',
   components: {
     LoginCard
   }

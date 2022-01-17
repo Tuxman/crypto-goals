@@ -8,7 +8,7 @@
 import RegisterCard from '@/components/RegisterCard.vue'
 
 export default {
-  name: 'Register',
+  name: 'RegisterPage',
   components: {
     RegisterCard
   }
