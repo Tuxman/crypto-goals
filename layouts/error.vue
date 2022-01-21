@@ -14,6 +14,7 @@
 
 <script>
 export default {
+  auth: false,
   layout: 'empty',
   props: {
     error: {

@@ -3,6 +3,7 @@
     <v-navigation-drawer
       permanent
       expand-on-hover
+      mini-variant
       app
     >
       <v-list>
@@ -28,8 +29,14 @@
     >
       <v-toolbar-title v-text="title" />
       <v-spacer />
-      <v-btn to="/Login" class="mr-1">Login</v-btn>
-      <v-btn to="/Register">Register</v-btn>
+      <div v-if="$auth.loggedIn">
+        {{ $auth.user.email }}
+        <v-btn @click="logout">Logout</v-btn>
+      </div>
+      <div v-else>
+        <v-btn class="mr-1" @click="login">Login</v-btn>
+        <v-btn @click="login">Register</v-btn>
+      </div>
     </v-app-bar>
     <v-main>
       <v-container>
@@ -47,6 +54,7 @@
 
 <script>
 export default {
+  auth: false,
   data () {
     return {
       fixed: false,
@@ -58,11 +66,19 @@ export default {
         },
         {
           icon: 'mdi-account',
-          title: 'Register',
-          to: '/Register'
+          title: 'Portfolio',
+          to: '/Portfolio'
         },
       ],
       title: 'Crypto Goals Tracker'
+    }
+  },
+  methods: {
+    login() {
+      this.$auth.loginWith('auth0')
+    },
+    async logout() {
+      await this.$auth.logout()
     }
   }
 }

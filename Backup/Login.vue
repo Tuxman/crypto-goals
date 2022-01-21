@@ -8,6 +8,7 @@
 import LoginCard from '@/components/LoginCard.vue'
 
 export default {
+  auth: false,
   name: 'LoginPage',
   components: {
     LoginCard

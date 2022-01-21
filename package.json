@@ -12,10 +12,12 @@
     "test": "jest"
   },
   "dependencies": {
+    "@auth0/auth0-spa-js": "^1.19.4",
     "@nuxt/content": "^1.14.0",
+    "@nuxtjs/auth-next": "5.0.0-1642152945.3bb6b5f",
     "@nuxtjs/axios": "^5.13.6",
     "chart.js": "^2.9.4",
-    "core-js": "^3.20.3",
+    "core-js": "^2.6.12",
     "nuxt": "^2.15.7",
     "vue-chartjs": "^3.5.1",
     "vuetify": "^2.5.5"
@@ -34,6 +36,7 @@
     "eslint-plugin-vue": "^8.3.0",
     "jest": "^27.4.7",
     "prettier": "^2.5.1",
-    "vue-jest": "^3.0.4"
+    "vue-jest": "^3.0.4",
+    "webpack": "^4.46.0"
   }
 }
