@@ -69,6 +69,11 @@ export default {
           title: 'Portfolio',
           to: '/Portfolio'
         },
+        {
+          icon: 'mdi-cash-100',
+          title: 'Dashboard',
+          to: '/Dashboard',
+        }
       ],
       title: 'Crypto Goals Tracker'
     }
