@@ -1,28 +1,26 @@
 module.exports = {
   root: true,
+  parser: 'babel-eslint',
+  parserOptions: {
+    sourceType: 'module'
+  },
   env: {
     browser: true,
     node: true
   },
-  parserOptions: {
-    parser: '@babel/eslint-parser',
-    requireConfigFile: false
+  extends: 'standard',
+  globals: {
+    __static: true
   },
-  extends: [
-    '@nuxtjs',
-    'plugin:nuxt/recommended',
-    'prettier'
-  ],
   plugins: [
+    'html'
   ],
-  // add your custom rules here
-  rules: {},
-  overrides: [
-    {
-      files: ['layouts/default.vue', 'layouts/error.vue'],
-      rules: {
-        'vue/multi-word-component-names': 'off'
-      }
-    }
-  ]
+  'rules': {
+    // allow paren-less arrow functions
+    'arrow-parens': 0,
+    // allow async-await
+    'generator-star-spacing': 0,
+    // allow debugger during development
+    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0
+  }
 }
