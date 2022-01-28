@@ -1,32 +1,93 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <v-app>
+    <v-navigation-drawer
+      permanent
+      expand-on-hover
+      mini-variant
+      app
+    >
+      <v-list>
+        <v-list-item
+          v-for="(item, i) in items"
+          :key="i"
+          :to="item.to"
+          link
+          exact
+        >
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>
+            <v-list-item-title v-text="item.title" />
+          </v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+    <v-app-bar
+      fixed
+      app
+    >
+      <v-toolbar-title v-text="title" />
+      <v-spacer />
+      <div v-if="$auth.isAuthenticated">
+        {{ $auth.user.email }}
+        <v-btn @click="logout">Logout</v-btn>
+      </div>
+      <div v-else>
+        <v-btn class="mr-1" @click="login">Login</v-btn>
+        <v-btn @click="login">Register</v-btn>
+      </div>
+    </v-app-bar>
+    <v-main>
+      <v-container>
+        <router-view />
+      </v-container>
+    </v-main>
+    <v-footer
+      :absolute="!fixed"
+      app
+    >
+      <span>&copy; {{ new Date().getFullYear() }}</span>
+    </v-footer>
+  </v-app>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
 
-#nav {
-  padding: 30px;
+export default {
+  name: 'App',
+  data () {
+    return {
+      fixed: false,
+      items: [
+        {
+          icon: 'mdi-apps',
+          title: 'Welcome',
+          to: '/'
+        },
+        {
+          icon: 'mdi-account',
+          title: 'Portfolio',
+          to: '/Portfolio'
+        },
+        {
+          icon: 'mdi-cash-100',
+          title: 'Dashboard',
+          to: '/Dashboard'
+        }
+      ],
+      title: 'Crypto Goals Tracker'
+    }
+  },
+  methods: {
+    login () {
+      this.$auth.loginWithRedirect()
+    },
+    logout () {
+      this.$auth.logout({
+        returnTo: window.location.origin
+      })
+    }
+  }
 }
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+</script>
