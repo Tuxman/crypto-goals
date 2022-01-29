@@ -4,17 +4,17 @@ import { Line } from 'vue-chartjs'
 export default {
   name: 'DashLineChart',
   extends: Line,
-  props: {
-    selectedDate: {
-      type: String,
-      default: '7',
-      required: true
-    },
-    coinName: {
-      type: String,
-      required: true
-    }
-  },
+  // props: {
+  //   selectedDate: {
+  //     type: String,
+  //     default: '7',
+  //     required: true
+  //   },
+  //   coinName: {
+  //     type: String,
+  //     required: true
+  //   }
+  // },
   data () {
     return {
       chartInterval: 'daily',
