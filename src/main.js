@@ -5,6 +5,7 @@ import store from './store'
 import vuetify from './plugins/vuetify'
 import { domain, clientId } from '../auth_config.json'
 import { Auth0Plugin } from './auth'
+import CryptoJS from 'crypto-js'
 
 Vue.use(Auth0Plugin, {
   domain,
@@ -24,5 +25,6 @@ new Vue({
   router,
   store,
   vuetify,
+  CryptoJS,
   render: h => h(App)
 }).$mount('#app')
